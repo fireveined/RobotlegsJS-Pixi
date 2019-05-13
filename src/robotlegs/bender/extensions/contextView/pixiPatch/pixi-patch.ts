@@ -30,7 +30,7 @@ function emitAddedEvent(stage: PIXI.Container, target: PIXI.DisplayObject): void
     stage.emit("added", { target });
 
     if (target instanceof PIXI.Container) {
-        target.children.forEach(child => emitAddedEvent(stage, child));
+        target.children.slice().forEach(child => emitAddedEvent(stage, child));
     }
 }
 
@@ -38,16 +38,18 @@ function emitRemovedEvent(stage: PIXI.Container, target: PIXI.DisplayObject): vo
     stage.emit("removed", { target });
 
     if (target instanceof PIXI.Container) {
-        target.children.forEach(child => emitRemovedEvent(stage, child));
+        target.children.slice().forEach(child => emitRemovedEvent(stage, child));
     }
 }
 
+let addChild = PIXI.Container.prototype.addChild;
+let addChildAt = PIXI.Container.prototype.addChildAt;
+let removeChild = PIXI.Container.prototype.removeChild;
+let removeChildren = PIXI.Container.prototype.removeChildren;
+let removeChildAt = PIXI.Container.prototype.removeChildAt;
+
 export function applyPixiPatch(stage: PIXI.Container) {
-    let addChild = PIXI.Container.prototype.addChild;
-    let addChildAt = PIXI.Container.prototype.addChildAt;
-    let removeChild = PIXI.Container.prototype.removeChild;
-    let removeChildren = PIXI.Container.prototype.removeChildren;
-    let removeChildAt = PIXI.Container.prototype.removeChildAt;
+
 
     PIXI.Container.prototype.addChild = function patchedAddChild<T extends PIXI.DisplayObject>(
         child: T,

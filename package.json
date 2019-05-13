@@ -1,6 +1,6 @@
 {
   "name": "@robotlegsjs/pixi",
-  "version": "1.0.0",
+  "version": "1.0.1-fix.pixi.patch",
   "description": "PIXI View Integration with RobotlegsJS",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -23,7 +23,6 @@
     "dev": "webpack",
     "build": "webpack --env.production",
     "prepare": "npm run clean-up && npm run compile:src",
-    "prepublishOnly": "publish-please guard",
     "publish-please": "npm run tslint && npm run autoformat && npm run clean-up && npm run test && publish-please"
   },
   "repository": {
